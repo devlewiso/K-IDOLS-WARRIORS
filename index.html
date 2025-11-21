@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>K-IDOLS del Saber ✨</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700;800&family=Fredoka+One&display=swap');
+        
+        * {
+            font-family: 'Fredoka', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #ff1493 0%, #ff69b4 25%, #00d4ff 50%, #00e5ff 75%, #fff700 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            min-height: 100vh;
+            margin: 0;
+        }
+        
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .app-container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .main-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 182, 193, 0.9) 100%);
+            backdrop-filter: blur(10px);
+            border: 4px solid #ff1493;
+            box-shadow: 
+                0 0 30px rgba(255, 20, 147, 0.6),
+                0 0 60px rgba(0, 212, 255, 0.4),
+                0 10px 40px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            border-radius: 30px;
+            animation: heartbeat 2s ease-in-out infinite;
+            padding: 1.5rem;
+        }
+        
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+        
+        .title-main {
+            font-family: 'Fredoka One', cursive;
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #ff1493, #00d4ff, #fff700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 3px 3px 0px rgba(255, 20, 147, 0.3);
+            letter-spacing: 2px;
+            animation: glow 2s ease-in-out infinite;
+            margin-bottom: 1rem;
+        }
+        
+        @keyframes glow {
+            0%, 100% { filter: drop-shadow(0 0 5px rgba(255, 20, 147, 0.6)); }
+            50% { filter: drop-shadow(0 0 15px rgba(0, 212, 255, 0.8)); }
+        }
+        
+        .game-button {
+            font-family: 'Fredoka One', cursive;
+            font-size: 1.1rem;
+            font-weight: 800;
+            padding: 1rem 1.5rem;
+            border: 4px solid;
+            border-radius: 20px;
+            transition: all 0.2s;
+            cursor: pointer;
+            box-shadow: 0 8px 0 rgba(0, 0, 0, 0.2);
+            position: relative;
+            top: 0;
+            animation: float 3s ease-in-out infinite;
+            width: 100%;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+        }
+        
+        .game-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 0 rgba(0, 0, 0, 0.2);
+        }
+        
+        .game-button:active {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 0 rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn-pink {
+            background: linear-gradient(135deg, #ff1493, #ff69b4);
+            color: white;
+            border-color: #ff1493;
+        }
+        
+        .btn-cyan {
+            background: linear-gradient(135deg, #00d4ff, #00e5ff);
+            color: #ff1493;
+            border-color: #00d4ff;
+            font-weight: 800;
+        }
+        
+        .btn-yellow {
+            background: linear-gradient(135deg, #fff700, #ffeb3b);
+            color: #ff1493;
+            border-color: #fff700;
+            font-weight: 800;
+        }
+        
+        .option-tile {
+            background: linear-gradient(135deg, rgba(255, 20, 147, 0.1), rgba(0, 212, 255, 0.1));
+            border: 3px solid #ff1493;
+            border-radius: 18px;
+            padding: 1rem;
+            font-size: 1.3rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #ff1493;
+            box-shadow: 0 4px 0 rgba(255, 20, 147, 0.3);
+            width: 100%;
+            text-align: center;
+        }
+        
+        .option-tile:hover {
+            transform: translateY(-3px);
+            background: linear-gradient(135deg, rgba(255, 20, 147, 0.2), rgba(0, 212, 255, 0.2));
+            box-shadow: 0 0 20px rgba(255, 20, 147, 0.5);
+        }
+        
+        .option-tile:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 0 rgba(255, 20, 147, 0.3);
+        }
+        
+        .correct-answer {
+            background: linear-gradient(135deg, #fff700, #ffeb3b) !important;
+            border-color: #fff700 !important;
+            color: #ff1493 !important;
+            transform: scale(1.08) !important;
+            box-shadow: 0 0 30px rgba(255, 235, 59, 1) !important;
+            animation: sparkle 0.6s ease-out;
+        }
+        
+        @keyframes sparkle {
+            0% { transform: scale(0.8); opacity: 0; }
+            50% { transform: scale(1.15); }
+            100% { transform: scale(1.08); opacity: 1; }
+        }
+        
+        .incorrect-answer {
+            background: linear-gradient(135deg, #ff69b4, #ff1493) !important;
+            border-color: #ff1493 !important;
+            opacity: 0.5 !important;
+            animation: shake 0.4s;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-8px); }
+            75% { transform: translateX(8px); }
+        }
+        
+        .game-header {
+            background: linear-gradient(135deg, #ff1493, #00d4ff);
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 0 20px rgba(255, 20, 147, 0.4);
+        }
+        
+        .level-badge {
+            background: linear-gradient(135deg, #fff700, #ffeb3b);
+            color: #ff1493;
+            font-weight: 800;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            display: inline-block;
+            box-shadow: 0 4px 0 rgba(0, 0, 0, 0.2);
+        }
+        
+        .score-badge {
+            background: linear-gradient(135deg, #00e5ff, #00d4ff);
+            color: #ff1493;
+            font-weight: 800;
+            padding: 0.7rem 1.5rem;
+            border-radius: 20px;
+            font-size: 1.3rem;
+            box-shadow: 0 0 15px rgba(0, 212, 255, 0.6);
+        }
+        
+        .display-content {
+            background: linear-gradient(135deg, rgba(255, 235, 59, 0.2), rgba(0, 212, 255, 0.2));
+            border: 4px dashed #ff1493;
+            border-radius: 20px;
+            padding: 2rem;
+            font-size: 3rem;
+            min-height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            margin: 1.5rem 0;
+            animation: pulse 2s ease-in-out infinite;
+            word-break: break-word;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .message-box {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            animation: fadeIn 0.3s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .message-content {
+            background: linear-gradient(135deg, #ff1493, #00d4ff);
+            border: 5px solid #fff700;
+            border-radius: 25px;
+            padding: 2.5rem;
+            text-align: center;
+            color: white;
+            font-size: 2rem;
+            font-weight: 800;
+            box-shadow: 0 0 50px rgba(255, 20, 147, 0.8);
+            animation: popIn 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            max-width: 90vw;
+        }
+        
+        @keyframes popIn {
+            0% { transform: scale(0.3); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        
+        .star-emoji {
+            display: inline-block;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive adjustments */
+        @media (min-width: 640px) {
+            .title-main {
+                font-size: 3.5rem;
+            }
+            .game-button {
+                font-size: 1.3rem;
+                max-width: 300px;
+                margin: 0 auto;
+            }
+            .option-tile {
+                font-size: 1.5rem;
+            }
+            .display-content {
+                font-size: 4rem;
+                min-height: 150px;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .app-container {
+                max-width: 650px;
+            }
+            .main-card {
+                width: 550px;
+                padding: 3rem;
+            }
+        }
+
+        /* Support touch devices large fonts and spacing */
+        @media (pointer: coarse) {
+            .game-button, .option-tile {
+                font-size: 1.6rem !important;
+                padding: 1.2rem 2rem !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="app" class="app-container"></div>
+
+    <!-- Footer informativo para contexto adicional -->
+    <footer class="text-center text-pink-600 font-semibold p-4 mt-6 select-none">
+        <div>© 2025 K-IDOLS del Saber - Juegos Educativos para Niños</div>
+        <div>Desarrollado con ❤️ usando HTML, TailwindCSS y JavaScript puro.</div>
+        <div class="mt-1 text-sm text-pink-400">Para soporte y sugerencias: contacto@kidols-saber.com</div>
+    </footer>
+
+    <script type="module">
+        const app = document.getElementById('app');
+        let currentScreen = 'mainMenu';
+        let currentLevel = 1;
+        let score = 0;
+        let gameData = {};
+        
+        // Preguntas matemáticas
+        const MATH_QUESTIONS = [
+            { type: 'count', object: 'estrellas ⭐', count: 3, max: 5 },
+            { type: 'count', object: 'diamantes 💎', count: 4, max: 6 },
+            { type: 'count', object: 'corazones 💖', count: 5, max: 7 },
+            { type: 'sum', num1: 4, num2: 2, max: 7 },
+            { type: 'sum', num1: 3, num2: 5, max: 9 },
+            { type: 'sum', num1: 1, num2: 6, max: 8 },
+            { type: 'subtract', num1: 7, num2: 2, max: 6 },
+            { type: 'subtract', num1: 8, num2: 4, max: 5 },
+            { type: 'subtract', num1: 9, num2: 3, max: 7 },
+        ];
+
+        // Preguntas lectura
+        const READING_QUESTIONS = [
+            { question: "¿Qué palabra empieza con 'S'?", answer: 'SOL', options: ['LUNA', 'MESA', 'SOL'] },
+            { question: "¿Qué palabra empieza con 'A'?", answer: 'AVIÓN', options: ['UVA', 'AVIÓN', 'OSO'] },
+            { question: "¿Qué palabra empieza con 'P'?", answer: 'PERRO', options: ['GATO', 'PERRO', 'CASA'] },
+            { question: "¿Qué palabra empieza con 'MA'?", answer: 'MANO', options: ['MESA', 'MANO', 'PERA'] },
+            { question: "¿Qué letra suena como en 'Perro'?", answer: 'P', options: ['M', 'S', 'P'] },
+            { question: "¿Qué palabra empieza con 'LO'?", answer: 'LOBEZNO', options: ['PELOTA', 'LOBEZNO', 'RATÓN'] },
+            { question: "Selecciona el objeto para DORMIR.", answer: 'CAMA', options: ['LIBRO', 'CAMA', 'JUGUETE'] },
+            { question: "Selecciona algo que PUEDES COMER.", answer: 'MANZANA', options: ['PIEDRA', 'MANZANA', 'ZAPATO'] },
+        ];
+
+        // Preguntas sociales
+        const SOCIAL_QUESTIONS = [
+            { question: "¿Cómo estoy? 😊", answer: 'FELIZ', options: ['ENOJADO', 'TRISTE', 'FELIZ'] },
+            { question: "¿Cómo estoy? 😭", answer: 'TRISTE', options: ['CANSADO', 'TRISTE', 'ALEGRE'] },
+            { question: "¿Cómo estoy? 😠", answer: 'ENOJADO', options: ['ENOJADO', 'SORPRENDIDO', 'CALMADO'] },
+            { question: "¿Quién apaga incendios? 🚒", answer: 'BOMBERO', options: ['DOCTOR', 'MAESTRO', 'BOMBERO'] },
+            { question: "¿Quién enseña? 🍎", answer: 'MAESTRO', options: ['POLICÍA', 'CHEF', 'MAESTRO'] },
+            { question: "¿Quién cura a los enfermos? 🩹", answer: 'DOCTOR', options: ['VENDEDOR', 'DOCTOR', 'PILOTO'] },
+        ];
+
+        const shuffleArray = (array) => {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        };
+
+        const generateFalseOption = (correctAnswer, max, existingOptions) => {
+            let option;
+            do {
+                option = Math.floor(Math.random() * max) + 1;
+            } while (option === correctAnswer || existingOptions.includes(option));
+            return option;
+        };
+
+        function generateMathQuestion(level) {
+            const levelQuestions = MATH_QUESTIONS.filter(q => {
+                if (level === 1) return q.type === 'count';
+                if (level === 2) return q.type === 'sum';
+                if (level === 3) return q.type === 'subtract';
+                return false;
+            });
+            if (levelQuestions.length === 0) return null;
+            const q = levelQuestions[Math.floor(Math.random() * levelQuestions.length)];
+            let correctAnswer, questionText, displayContent = '';
+            if (q.type === 'count') {
+                correctAnswer = q.count;
+                questionText = `¡A contar! ¿Cuántas ${q.object.split(' ')[0]} ves?`;
+                const emoji = q.object.split(' ')[1] || '⭐';
+                for (let i = 0; i < q.count; i++) {
+                    displayContent += emoji + ' ';
+                }
+            } else if (q.type === 'sum') {
+                correctAnswer = q.num1 + q.num2;
+                questionText = `¿Cuánto es ${q.num1} más ${q.num2}?`;
+                displayContent = `${q.num1} ➕ ${q.num2}`;
+            } else if (q.type === 'subtract') {
+                correctAnswer = q.num1 - q.num2;
+                questionText = `¿Cuánto es ${q.num1} menos ${q.num2}?`;
+                displayContent = `${q.num1} ➖ ${q.num2}`;
+            }
+            const maxOption = q.max || 10;
+            const options = [correctAnswer];
+            while (options.length < 3) {
+                options.push(generateFalseOption(correctAnswer, maxOption, options));
+            }
+            gameData = {
+                type: 'math',
+                questionText: questionText,
+                displayContent: displayContent,
+                correctAnswer: correctAnswer,
+                options: shuffleArray(options)
+            };
+        }
+
+        function generateReadingQuestion(level) {
+            const startIndex = (level - 1) * 3;
+            const endIndex = startIndex + 3;
+            const levelQuestions = READING_QUESTIONS.slice(startIndex, endIndex);
+            if (levelQuestions.length === 0) return null;
+            const q = levelQuestions[Math.floor(Math.random() * levelQuestions.length)];
+            gameData = {
+                type: 'reading',
+                questionText: q.question,
+                displayContent: q.answer,
+                correctAnswer: q.answer,
+                options: shuffleArray(q.options)
+            };
+        }
+
+        function generateSocialQuestion(level) {
+            const startIndex = (level - 1) * 3;
+            const endIndex = startIndex + 3;
+            const levelQuestions = SOCIAL_QUESTIONS.slice(startIndex, endIndex);
+            if (levelQuestions.length === 0) return null;
+            const q = levelQuestions[Math.floor(Math.random() * levelQuestions.length)];
+            gameData = {
+                type: 'social',
+                questionText: q.question,
+                displayContent: q.question.includes('?') ? q.question.slice(q.question.lastIndexOf(' ') + 1) : q.question,
+                correctAnswer: q.answer,
+                options: shuffleArray(q.options)
+            };
+        }
+
+        function checkAnswer(selectedOption, element) {
+            document.querySelectorAll('.option-tile').forEach(btn => btn.disabled = true);
+            if (selectedOption == gameData.correctAnswer) {
+                score += 10;
+                element.classList.add('correct-answer');
+                showMessage('¡CORRECTO! 🎉', '¡Eres una Diamond Warrior!');
+                setTimeout(() => nextQuestion(), 2000);
+            } else {
+                element.classList.add('incorrect-answer');
+                document.querySelectorAll('.option-tile').forEach(btn => {
+                    if (btn.textContent.trim() == gameData.correctAnswer) {
+                        btn.classList.add('correct-answer');
+                    }
+                });
+                showMessage('¡Inténtalo de nuevo! 💪', `La respuesta es: ${gameData.correctAnswer}`);
+                setTimeout(() => nextQuestion(), 3000);
+            }
+        }
+
+        function showMessage(title, message) {
+            const messageBox = document.createElement('div');
+            messageBox.className = 'message-box';
+            messageBox.innerHTML = `
+                <div class="message-content">
+                    <div class="text-3xl mb-3">${title}</div>
+                    <div class="text-xl">${message}</div>
+                </div>
+            `;
+            document.body.appendChild(messageBox);
+            setTimeout(() => messageBox.remove(), 2500); 
+        }
+
+        function nextQuestion() {
+            currentLevel++;
+            if (currentLevel > 3) {
+                window.renderScreen('mainMenu');
+            } else {
+                if (gameData.type === 'math') {
+                    generateMathQuestion(currentLevel);
+                    window.renderScreen('mathGame');
+                } else if (gameData.type === 'reading') {
+                    generateReadingQuestion(currentLevel);
+                    window.renderScreen('readingGame');
+                } else if (gameData.type === 'social') {
+                    generateSocialQuestion(currentLevel);
+                    window.renderScreen('socialGame');
+                }
+            }
+        }
+
+        function renderMainMenu() {
+            currentScreen = 'mainMenu';
+            currentLevel = 1;
+            const maxScore = localStorage.getItem('kidIdolsMaxScore') || 0;
+            score = 0;
+            app.innerHTML = `
+                <div class="main-card p-8 rounded-3xl text-center">
+                    <h1 class="title-main text-6xl mb-8 leading-tight">
+                        K-IDOLS<br>💎 WARRIORS 💎
+                    </h1>
+                    <p class="text-2xl font-bold text-pink-600 mb-8">
+                        ¡Conviértete en una Diamond Warrior!
+                    </p>
+
+                    <div class="space-y-4">
+                        <button onclick="startGame('math')" class="game-button btn-pink w-full">
+                            🔢 CONTAR Y CALCULAR
+                        </button>
+                        <button onclick="startGame('reading')" class="game-button btn-cyan w-full">
+                            📚 PALABRAS MÁGICAS
+                        </button>
+                        <button onclick="startGame('social')" class="game-button btn-yellow w-full">
+                            💖 EMOCIONES & AMIGOS
+                        </button>
+                    </div>
+                    <div class="mt-8 p-4 bg-white bg-opacity-70 rounded-xl text-lg font-bold text-pink-700 border-2 border-pink-300">
+                         Puntuación Máxima: <span id="maxScore">${maxScore}</span> ⭐
+                    </div>
+                </div>
+
+                <section class="mt-10 text-center text-pink-700">
+                    <h2 class="text-3xl font-bold mb-4">¿Qué es K-IDOLS del Saber?</h2>
+                    <p class="text-lg max-w-md mx-auto">
+                        Una plataforma educativa diseñada para niños, con juegos interactivos que fomentan el aprendizaje de matemáticas, lectura y habilidades sociales.
+                    </p>
+                </section>
+
+                <section class="mt-8 text-center text-pink-700">
+                    <h2 class="text-3xl font-bold mb-4">Cómo jugar</h2>
+                    <ul class="max-w-md mx-auto text-left list-disc list-inside text-lg">
+                        <li>Selecciona uno de los tres juegos disponibles.</li>
+                        <li>Responde las preguntas en cada nivel para avanzar.</li>
+                        <li>Cada respuesta correcta suma puntos para alcanzar la puntuación máxima.</li>
+                        <li>Diviértete y aprende con los divertidos desafíos.</li>
+                    </ul>
+                </section>
+
+                <section class="mt-8 mb-8 text-center text-pink-700">
+                    <h2 class="text-3xl font-bold mb-4">Dispositivos soportados</h2>
+                    <p class="text-lg max-w-md mx-auto">
+                        Funciona perfectamente en teléfonos, tablets y computadoras touch, con diseño adaptativo para cualquier tamaño de pantalla.
+                    </p>
+                </section>
+            `;
+            document.getElementById('maxScore').textContent = maxScore;
+        }
+
+        function renderGameScreen() {
+            const gameTitles = {
+                'mathGame': '🔢 ENTRENAMIENTO MATEMÁTICO',
+                'readingGame': '📚 GUERRERO DE PALABRAS',
+                'socialGame': '💖 HÉROE SOCIAL'
+            };
+            const gameTitle = gameTitles[currentScreen] || '';
+
+            app.innerHTML = `
+                <div class="main-card p-6 rounded-3xl text-center">
+                    <div class="flex justify-between items-center mb-6">
+                        <button onclick="renderScreen('mainMenu')" class="game-button btn-pink py-2 px-4 text-base max-w-[120px]">
+                            🏠 MENÚ
+                        </button>
+                        <h2 class="text-2xl md:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-600 to-cyan-500 mx-auto">
+                            ${gameTitle}
+                        </h2>
+                        <div class="score-badge">⭐ ${score}</div>
+                    </div>
+                    <div class="level-badge mb-6">Nivel ${currentLevel} 🎯</div>
+                    <p class="text-2xl font-bold text-gray-700 mb-4">${gameData.questionText}</p>
+                    <div class="display-content">
+                        ${gameData.displayContent}
+                    </div>
+                    <div id="optionsContainer" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <!-- Opciones se inyectan aquí -->
+                    </div>
+                </div>
+            `;
+            renderOptions();
+        }
+
+        function renderOptions() {
+            const optionsContainer = document.getElementById('optionsContainer');
+            optionsContainer.innerHTML = '';
+            gameData.options.forEach(option => {
+                const button = document.createElement('button');
+                button.textContent = option;
+                button.className = 'option-tile';
+                button.onclick = (e) => checkAnswer(option, e.target);
+                optionsContainer.appendChild(button);
+            });
+        }
+
+        window.startGame = (gameType) => {
+            currentLevel = 1;
+            score = 0;
+            if (gameType === 'math') {
+                generateMathQuestion(currentLevel);
+                window.renderScreen('mathGame');
+            } else if (gameType === 'reading') {
+                generateReadingQuestion(currentLevel);
+                window.renderScreen('readingGame');
+            } else if (gameType === 'social') {
+                generateSocialQuestion(currentLevel);
+                window.renderScreen('socialGame');
+            }
+        };
+
+        window.renderScreen = (screenName) => {
+            currentScreen = screenName;
+            if (screenName === 'mainMenu') {
+                renderMainMenu();
+            } else if (screenName.endsWith('Game')) {
+                const maxScore = parseInt(localStorage.getItem('kidIdolsMaxScore') || 0);
+                if (score > maxScore) {
+                    localStorage.setItem('kidIdolsMaxScore', score);
+                }
+                renderGameScreen();
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            window.renderScreen('mainMenu');
+        });
+    </script>
+</body>
+</html>
